@@ -1,5 +1,7 @@
 # snfforms.com
 
+[![Handbook](https://img.shields.io/badge/Project-Handbook-blue?style=flat-square&logo=google-docs&logoColor=white)](https://docs.google.com/document/d/1t5PCXuktJXC351yqyWOsuqGsvpBLBZEeYdFL7zvt3as/edit?tab=t.0)
+
 A real-time, user-friendly catalog of forms using Google Sheets as a lightweight
 CMS and Google Drive for asset storage.
 

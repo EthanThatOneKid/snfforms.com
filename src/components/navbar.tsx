@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { ModeToggle } from './mode-toggle';
 
 export function Navbar() {
   return (
@@ -8,7 +9,7 @@ export function Navbar() {
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center gap-2">
             <Image
-              src="/brand-logo.png"
+              src="/logo-transparent.svg"
               alt="SNF Logo"
               width={40}
               height={40}
@@ -21,17 +22,18 @@ export function Navbar() {
         </div>
         <div className="flex items-center gap-6">
           <Link
-            href="#"
+            href="/forms"
             className="text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
           >
-            Catalog
+            Forms
           </Link>
           <Link
-            href="#"
+            href="/contact"
             className="text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
           >
             Contact
           </Link>
+          <ModeToggle />
         </div>
       </div>
     </nav>

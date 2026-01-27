@@ -9,7 +9,7 @@ export function Footer() {
           <div className="col-span-1 md:col-span-2">
             <Link href="/" className="flex items-center gap-2">
               <Image
-                src="/brand-logo.png"
+                src="/logo-transparent.svg"
                 alt="SNF Logo"
                 width={32}
                 height={32}

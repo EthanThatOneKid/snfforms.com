@@ -70,3 +70,14 @@ export async function getForms(): Promise<NormalizedCatalogItem[]> {
     pdf0: row[10] || '',
   }));
 }
+
+/**
+ * Fetches a single form by ID.
+ * Since the dataset is small, we reuse getForms() and filter.
+ */
+export async function getFormById(
+  id: string
+): Promise<NormalizedCatalogItem | undefined> {
+  const forms = await getForms();
+  return forms.find((f) => f.formId === id);
+}
