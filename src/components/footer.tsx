@@ -13,7 +13,7 @@ export function Footer() {
                 alt="SNF Logo"
                 width={32}
                 height={32}
-                className="h-8 w-auto"
+                className="h-8 w-auto hover-rotate-logo"
               />
               <span className="text-lg font-bold tracking-tight text-zinc-900 dark:text-white">
                 SNF Printing

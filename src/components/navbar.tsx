@@ -13,7 +13,7 @@ export function Navbar() {
               alt="SNF Logo"
               width={40}
               height={40}
-              className="h-10 w-auto"
+              className="h-10 w-auto hover-rotate-logo"
             />
             <span className="hidden text-xl font-bold tracking-tight text-zinc-900 dark:text-white sm:block">
               SNF Printing

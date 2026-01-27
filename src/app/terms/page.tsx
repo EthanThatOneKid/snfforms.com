@@ -15,10 +15,11 @@ export default function TermsPage() {
           </h2>
           <p className="mt-4">
             These Terms of Service constitute a legally binding agreement made
-            between you, whether personally or on behalf of an entity (&quot;you&quot;)
-            and SNF Printing (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;), concerning your access to
-            and use of our website. By accessing the site, you have read,
-            understood, and agreed to be bound by all of these Terms of Service.
+            between you, whether personally or on behalf of an entity
+            (&quot;you&quot;) and SNF Printing (&quot;we,&quot; &quot;us,&quot;
+            or &quot;our&quot;), concerning your access to and use of our
+            website. By accessing the site, you have read, understood, and
+            agreed to be bound by all of these Terms of Service.
           </p>
         </section>
 
@@ -30,10 +31,10 @@ export default function TermsPage() {
             Unless otherwise indicated, the Site is our proprietary property and
             all source code, databases, functionality, software, website
             designs, audio, video, text, photographs, and graphics on the Site
-            (collectively, the &quot;Content&quot;) and the trademarks, service marks, and
-            logos contained therein (the &quot;Marks&quot;) are owned or controlled by us
-            or licensed to us, and are protected by copyright and trademark
-            laws.
+            (collectively, the &quot;Content&quot;) and the trademarks, service
+            marks, and logos contained therein (the &quot;Marks&quot;) are owned
+            or controlled by us or licensed to us, and are protected by
+            copyright and trademark laws.
           </p>
         </section>
 
