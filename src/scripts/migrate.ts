@@ -70,13 +70,6 @@ const CHECKPOINT_PATH =
   process.env.CHECKPOINT_PATH || path.join(process.cwd(), 'checkpoint.json');
 
 /**
- * Path to the Google Service Account credentials.
- */
-const SERVICE_ACCOUNT_PATH =
-  process.env.SERVICE_ACCOUNT_PATH ||
-  path.join(process.cwd(), 'service-account.json');
-
-/**
  * List of CLI arguments.
  */
 const args = process.argv.slice(2);
@@ -137,13 +130,22 @@ async function initializeClients() {
     return;
   }
 
-  console.log('Using Service Account authentication (service-account.json).');
-  const auth = new google.auth.GoogleAuth({
-    keyFile: SERVICE_ACCOUNT_PATH,
-    scopes: SCOPES,
-  });
-  drive = google.drive({ version: 'v3', auth });
-  sheets = google.sheets({ version: 'v4', auth });
+  if (process.env.GOOGLE_CREDENTIALS) {
+    console.log(
+      'Using Service Account authentication (GOOGLE_CREDENTIALS env var).'
+    );
+    const auth = new google.auth.GoogleAuth({
+      credentials: JSON.parse(process.env.GOOGLE_CREDENTIALS),
+      scopes: SCOPES,
+    });
+    drive = google.drive({ version: 'v3', auth });
+    sheets = google.sheets({ version: 'v4', auth });
+    return;
+  }
+
+  throw new Error(
+    'No valid authentication found. Please set GOOGLE_CREDENTIALS or ensure tokens.json exists for User OAuth.'
+  );
 }
 
 /**

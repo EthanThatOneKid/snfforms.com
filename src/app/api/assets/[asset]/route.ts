@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { google } from 'googleapis';
-import path from 'path';
 
 const SCOPES = ['https://www.googleapis.com/auth/drive.readonly'];
 
@@ -18,11 +17,17 @@ export async function GET(
       );
     }
 
-    const serviceAccountPath =
-      process.env.SERVICE_ACCOUNT_PATH ||
-      path.join(process.cwd(), 'service-account.json');
+    const credentialsJson = process.env.GOOGLE_CREDENTIALS;
+    if (!credentialsJson) {
+      console.error('GOOGLE_CREDENTIALS is not set');
+      return NextResponse.json(
+        { error: 'Internal Server Error: Missing Credentials' },
+        { status: 500 }
+      );
+    }
+
     const auth = new google.auth.GoogleAuth({
-      keyFile: serviceAccountPath,
+      credentials: JSON.parse(credentialsJson),
       scopes: SCOPES,
     });
 

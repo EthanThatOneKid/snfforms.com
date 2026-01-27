@@ -1,5 +1,4 @@
 import { google } from 'googleapis';
-import path from 'path';
 
 /**
  * A normalized catalog item following the DESIGN.md schema.
@@ -31,12 +30,16 @@ const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
  * Initializes and returns a Google Sheets client using the service account.
  */
 export async function getSheetsClient() {
-  const serviceAccountPath =
-    process.env.SERVICE_ACCOUNT_PATH ||
-    path.join(process.cwd(), 'service-account.json');
+  const credentialsJson = process.env.GOOGLE_CREDENTIALS;
+
+  if (!credentialsJson) {
+    throw new Error(
+      'GOOGLE_CREDENTIALS Is not set. Please add it to your environment variables.'
+    );
+  }
 
   const auth = new google.auth.GoogleAuth({
-    keyFile: serviceAccountPath,
+    credentials: JSON.parse(credentialsJson),
     scopes: SCOPES,
   });
 

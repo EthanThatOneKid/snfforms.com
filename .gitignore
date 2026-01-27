@@ -44,5 +44,5 @@ next-env.d.ts
 
 # migration
 checkpoint.json
-service-account.json
+
 tokens.json
