@@ -24,15 +24,13 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
   return (
     <div className="pt-24 pb-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-12">
-          <h1 className="text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl">
-            Forms Catalog
-          </h1>
-          <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-            Browse our extensive collection of precision-printed medical and
-            administrative forms.
-          </p>
-        </div>
+        <h1 className="text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl">
+          Forms Catalog
+        </h1>
+        <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
+          Browse our extensive collection of precision-printed medical and
+          administrative forms.
+        </p>
 
         <Suspense
           fallback={
