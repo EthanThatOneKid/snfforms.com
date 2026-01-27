@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write .",
-    "migrate": "tsx src/scripts/migrate.ts"
+    "precommit": "npm run format && npm run lint",
+    "migrate": "tsx src/scripts/migrate.ts",
+    "auth": "tsx src/scripts/auth.ts"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
