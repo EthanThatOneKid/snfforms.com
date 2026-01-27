@@ -38,7 +38,6 @@ export const metadata: Metadata = {
   },
   appleWebApp: {
     title: 'SNF Printing',
-    description: 'SNF Printing',
   },
 };
 

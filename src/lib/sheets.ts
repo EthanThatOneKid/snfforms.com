@@ -18,7 +18,14 @@ export interface NormalizedCatalogItem {
   pdf0: string;
 }
 
-const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
+export interface ContactFormData {
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
+}
+
+const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
 
 /**
  * Initializes and returns a Google Sheets client using the service account.
@@ -80,4 +87,26 @@ export async function getFormById(
 ): Promise<NormalizedCatalogItem | undefined> {
   const forms = await getForms();
   return forms.find((f) => f.formId === id);
+}
+
+/**
+ * Appends a new contact message to the contact sheet.
+ */
+export async function appendContactMessage(data: ContactFormData) {
+  const sheetId = process.env.CONTACT_SHEET_ID;
+  if (!sheetId) {
+    throw new Error('CONTACT_SHEET_ID is not set in environment variables');
+  }
+
+  const sheets = await getSheetsClient();
+  const timestamp = new Date().toISOString();
+
+  await sheets.spreadsheets.values.append({
+    spreadsheetId: sheetId,
+    range: 'Sheet1!A:E', // Appends to the first 5 columns found
+    valueInputOption: 'USER_ENTERED',
+    requestBody: {
+      values: [[timestamp, data.name, data.email, data.phone, data.message]],
+    },
+  });
 }
