@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import dotenv from 'dotenv';
-import { google } from 'googleapis';
+import { google, drive_v3, sheets_v4 } from 'googleapis';
 import { createReadStream } from 'fs';
 
 // Load environment variables from .env
@@ -96,17 +96,27 @@ const SCOPES = [
  * List of headers expected in the destination Google Sheet.
  */
 const EXPECTED_HEADERS = [
-  'formId', 'category', 'description', 'size', 'paper', 
-  'color', 'sides', 'unit', 'file0', 'file1', 'pdf0'
+  'formId',
+  'category',
+  'description',
+  'size',
+  'paper',
+  'color',
+  'sides',
+  'unit',
+  'file0',
+  'file1',
+  'pdf0',
 ];
 
 /**
  * Path to the user OAuth2 tokens.
  */
-const TOKEN_PATH = process.env.TOKEN_PATH || path.join(process.cwd(), 'tokens.json');
+const TOKEN_PATH =
+  process.env.TOKEN_PATH || path.join(process.cwd(), 'tokens.json');
 
-let drive: any;
-let sheets: any;
+let drive: drive_v3.Drive;
+let sheets: sheets_v4.Sheets;
 
 /**
  * Initializes Google API clients using either tokens.json (User OAuth2) or service-account.json.
@@ -133,7 +143,6 @@ async function initializeClients() {
   drive = google.drive({ version: 'v3', auth });
   sheets = google.sheets({ version: 'v4', auth });
 }
-
 
 /**
  * Maps legacy catalog items to the flattened schema.
@@ -233,7 +242,9 @@ async function checkDestinationsNotEmpty() {
   ) {
     // If we're resuming (checkpoint file exists), we allow the destination to be non-empty
     if (await fs.pathExists(CHECKPOINT_PATH)) {
-      console.log('  Destination is not empty, but checkpoint exists. Resuming...');
+      console.log(
+        '  Destination is not empty, but checkpoint exists. Resuming...'
+      );
       return;
     }
 

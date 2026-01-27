@@ -28,7 +28,9 @@ async function main() {
   const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
 
   if (!clientId || !clientSecret) {
-    console.error('Error: GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET must be set in .env');
+    console.error(
+      'Error: GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET must be set in .env'
+    );
     process.exit(1);
   }
 
@@ -48,29 +50,35 @@ async function main() {
   console.log('1. Open the following URL in your browser:\n');
   console.log(authUrl);
   console.log('\n2. Log in and authorize the application.');
-  console.log('3. The script will automatically catch the code and save tokens.json.\n');
+  console.log(
+    '3. The script will automatically catch the code and save tokens.json.\n'
+  );
 
-  const server = http.createServer(async (req, res) => {
-    try {
-      if (req.url?.startsWith('/oauth2callback')) {
-        const q = url.parse(req.url, true).query;
-        const code = q.code as string;
+  const server = http
+    .createServer(async (req, res) => {
+      try {
+        if (req.url?.startsWith('/oauth2callback')) {
+          const q = url.parse(req.url, true).query;
+          const code = q.code as string;
 
-        res.end('Authentication successful! You can close this window and return to the terminal.');
-        server.close();
+          res.end(
+            'Authentication successful! You can close this window and return to the terminal.'
+          );
+          server.close();
 
-        const { tokens } = await oauth2Client.getToken(code);
-        await fs.writeJson(TOKEN_PATH, tokens, { spaces: 2 });
-        
-        console.log('Successfully saved tokens to tokens.json');
-        process.exit(0);
+          const { tokens } = await oauth2Client.getToken(code);
+          await fs.writeJson(TOKEN_PATH, tokens, { spaces: 2 });
+
+          console.log('Successfully saved tokens to tokens.json');
+          process.exit(0);
+        }
+      } catch (e) {
+        console.error('Error obtaining tokens:', e);
+        res.end('Authentication failed.');
+        process.exit(1);
       }
-    } catch (e) {
-      console.error('Error obtaining tokens:', e);
-      res.end('Authentication failed.');
-      process.exit(1);
-    }
-  }).listen(3000);
+    })
+    .listen(3000);
 }
 
 main().catch(console.error);
