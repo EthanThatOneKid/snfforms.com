@@ -4,6 +4,8 @@ import dotenv from 'dotenv';
 import { google, drive_v3, sheets_v4 } from 'googleapis';
 import { createReadStream } from 'fs';
 
+// Files derived from https://github.com/EthanThatOneKid/snf-files-2025
+
 // Load environment variables from .env
 dotenv.config();
 
