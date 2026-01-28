@@ -27,13 +27,13 @@ export function Hero() {
             </p>
             <div className="flex flex-col gap-4 sm:flex-row">
               <Link
-                href="#"
+                href="/catalog"
                 className="flex h-12 items-center justify-center rounded-full bg-blue-600 px-8 text-base font-semibold text-white transition-all hover:bg-blue-700 hover:shadow-lg active:scale-95"
               >
                 View Form Catalog
               </Link>
               <Link
-                href="#"
+                href="/contact"
                 className="flex h-12 items-center justify-center rounded-full border border-zinc-200 px-8 text-base font-semibold text-zinc-900 transition-all hover:bg-zinc-50 dark:border-zinc-800 dark:text-white dark:hover:bg-zinc-900 active:scale-95"
               >
                 Contact Sales
