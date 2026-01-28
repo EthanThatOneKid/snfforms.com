@@ -8,7 +8,9 @@ interface SearchProps {
   placeholder?: string;
 }
 
-export function Search({ placeholder = 'Search forms by ID...' }: SearchProps) {
+export function Search({
+  placeholder = 'Search forms by ID or description...',
+}: SearchProps) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();

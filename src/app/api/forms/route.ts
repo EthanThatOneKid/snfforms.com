@@ -16,7 +16,11 @@ export async function GET(request: NextRequest) {
     }
 
     if (q) {
-      forms = forms.filter((form) => form.formId.toLowerCase().includes(q));
+      forms = forms.filter(
+        (form) =>
+          form.formId.toLowerCase().includes(q) ||
+          form.description.toLowerCase().includes(q)
+      );
     }
 
     return NextResponse.json(forms);

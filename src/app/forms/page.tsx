@@ -23,8 +23,10 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
     : allForms;
 
   if (q) {
-    filteredForms = filteredForms.filter((f) =>
-      f.formId.toLowerCase().includes(q.toLowerCase())
+    filteredForms = filteredForms.filter(
+      (f) =>
+        f.formId.toLowerCase().includes(q.toLowerCase()) ||
+        f.description.toLowerCase().includes(q.toLowerCase())
     );
   }
 
