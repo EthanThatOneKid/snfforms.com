@@ -60,13 +60,15 @@ export function FormCard({ form }: FormCardProps) {
         </Link>
       </div>
 
-      <FormImageGallery
-        form={form}
-        className="aspect-[4/5] border-t border-border/50 bg-muted group-hover:bg-muted/50 transition-colors"
-        imageClassName="object-cover"
-        buttonClassName="h-6 w-6 text-[10px]"
-        hoverEffect={true}
-      />
+      <Link href={`/forms/${form.formId}`}>
+        <FormImageGallery
+          form={form}
+          className="aspect-[4/5] border-t border-border/50 bg-muted group-hover:bg-muted/50 transition-colors cursor-pointer"
+          imageClassName="object-cover"
+          buttonClassName="h-6 w-6 text-[10px]"
+          hoverEffect={true}
+        />
+      </Link>
     </div>
   );
 }

@@ -89,6 +89,7 @@ export function FormImageGallery({
               key={idx}
               onClick={(e) => {
                 // Stop propagation if inside a link/card that shouldn't click
+                e.stopPropagation();
                 if (hoverEffect) {
                   // If used in card, prevent navigating
                   e.preventDefault();
