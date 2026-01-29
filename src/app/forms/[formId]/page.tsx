@@ -1,4 +1,5 @@
 import { getFormById } from '@/lib/sheets';
+import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { FormPreview } from '@/components/form-preview';
 import { ChevronLeft, FileText } from 'lucide-react';
@@ -8,6 +9,22 @@ interface PageProps {
   params: Promise<{
     formId: string;
   }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { formId } = await params;
+  const form = await getFormById(formId);
+
+  if (!form) {
+    return {
+      title: 'Form Not Found',
+    };
+  }
+
+  return {
+    title: `${form.formId} - ${form.description}`,
+    description: `Order form ${form.formId}: ${form.description}. Size: ${form.size}, Unit: ${form.unit}.`,
+  };
 }
 
 export default async function FormPage({ params }: PageProps) {

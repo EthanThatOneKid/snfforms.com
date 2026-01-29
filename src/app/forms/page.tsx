@@ -1,4 +1,5 @@
 import { getForms } from '@/lib/sheets';
+import { Metadata } from 'next';
 import { FormCard } from '@/components/form-card';
 import { CategoryFilter } from '@/components/category-filter';
 import { Search } from '@/components/search';
@@ -7,6 +8,10 @@ import { Suspense } from 'react';
 interface CatalogPageProps {
   searchParams: Promise<{ category?: string; q?: string }>;
 }
+
+export const metadata: Metadata = {
+  title: 'Forms Catalog',
+};
 
 export default async function CatalogPage({ searchParams }: CatalogPageProps) {
   const { category, q } = await searchParams;
