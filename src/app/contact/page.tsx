@@ -9,15 +9,16 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { CheckCircle2, AlertCircle } from 'lucide-react';
+import {
+  CheckCircle2,
+  AlertCircle,
+  Mail,
+  MapPin,
+  Phone,
+  Printer,
+} from 'lucide-react';
 
 function ContactForm() {
   const { executeRecaptcha } = useGoogleReCaptcha();
@@ -87,16 +88,9 @@ function ContactForm() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Contact SNF Printing</CardTitle>
-        <CardDescription>
-          Have a question or need a quote? Fill out the form below and
-          we&apos;ll get back to you as soon as possible.
-        </CardDescription>
-      </CardHeader>
       <CardContent>
         {status === 'success' ? (
-          <Alert className="mb-6 bg-green-50 text-green-900 border-green-200">
+          <Alert className="bg-green-50 text-green-900 border-green-200">
             <CheckCircle2 className="h-4 w-4 text-green-600" />
             <AlertTitle>Message Sent!</AlertTitle>
             <AlertDescription>
@@ -203,12 +197,75 @@ function ContactForm() {
 
 export default function ContactPage() {
   return (
-    <div className="container mx-auto pt-32 pb-10 px-4 max-w-2xl">
-      <GoogleReCaptchaProvider
-        reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}
-      >
-        <ContactForm />
-      </GoogleReCaptchaProvider>
+    <div className="container mx-auto pt-32 pb-10 px-4 max-w-5xl">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div className="space-y-8">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Get in touch</h1>
+            <p className="mt-4 text-lg text-muted-foreground">
+              Have a question or need a quote? Fill out the form or reach out to
+              us directly using the contact information below.
+            </p>
+          </div>
+
+          <div className="space-y-6">
+            <div className="flex items-start space-x-4">
+              <Mail className="h-6 w-6 text-primary mt-1" />
+              <div>
+                <h3 className="font-semibold">Email</h3>
+                <p className="text-muted-foreground">
+                  <a
+                    href="mailto:sales@snfforms.com"
+                    className="hover:underline"
+                  >
+                    sales@snfforms.com
+                  </a>
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start space-x-4">
+              <MapPin className="h-6 w-6 text-primary mt-1" />
+              <div>
+                <h3 className="font-semibold">Corporate Headquarters</h3>
+                <p className="text-muted-foreground">
+                  15532 Computer Lane
+                  <br />
+                  Huntington Beach, CA
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start space-x-4">
+              <Phone className="h-6 w-6 text-primary mt-1" />
+              <div>
+                <h3 className="font-semibold">Phone</h3>
+                <p className="text-muted-foreground">
+                  <a href="tel:+17149016868" className="hover:underline">
+                    (714) 901-6868
+                  </a>
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start space-x-4">
+              <Printer className="h-6 w-6 text-primary mt-1" />
+              <div>
+                <h3 className="font-semibold">Fax</h3>
+                <p className="text-muted-foreground">(714) 901-6858</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <GoogleReCaptchaProvider
+            reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}
+          >
+            <ContactForm />
+          </GoogleReCaptchaProvider>
+        </div>
+      </div>
     </div>
   );
 }

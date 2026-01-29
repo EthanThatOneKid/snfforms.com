@@ -6,7 +6,7 @@ export function Footer() {
     <footer className="border-t border-zinc-200 bg-white dark:border-zinc-800 dark:bg-black">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
-          <div className="col-span-1 md:col-span-2">
+          <div className="col-span-1">
             <Link href="/" className="flex items-center gap-2">
               <Image
                 src="/logo-transparent.svg"
@@ -31,7 +31,7 @@ export function Footer() {
             <ul className="mt-4 space-y-2">
               <li>
                 <Link
-                  href="#"
+                  href="/forms"
                   className="text-sm text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
                 >
                   Catalog
@@ -39,7 +39,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="/contact"
                   className="text-sm text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
                 >
                   Contact
@@ -67,6 +67,39 @@ export function Footer() {
                 >
                   Terms of Service
                 </Link>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-900 dark:text-white">
+              Contact Us
+            </h3>
+            <ul className="mt-4 space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
+              <li>
+                <a
+                  href="mailto:sales@snfforms.com"
+                  className="transition-colors hover:text-zinc-900 dark:hover:text-zinc-100"
+                >
+                  sales@snfforms.com
+                </a>
+              </li>
+              <li>
+                <p>15532 Computer Lane</p>
+                <p>Huntington Beach, CA</p>
+              </li>
+              <li>
+                <p>
+                  Phone:{' '}
+                  <a
+                    href="tel:+17149016868"
+                    className="transition-colors hover:text-zinc-900 dark:hover:text-zinc-100"
+                  >
+                    (714) 901-6868
+                  </a>
+                </p>
+              </li>
+              <li>
+                <p>Fax: (714) 901-6858</p>
               </li>
             </ul>
           </div>

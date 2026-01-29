@@ -28,6 +28,16 @@ DRIVE_FOLDER_ID=your_google_drive_folder_id
 GOOGLE_CLIENT_ID=your_oauth_client_id
 GOOGLE_CLIENT_SECRET=your_oauth_client_secret
 CHECKPOINT_PATH=./checkpoint.json
+
+# Contact Form
+CONTACT_SHEET_ID=your_contact_sheet_id
+NEXT_PUBLIC_RECAPTCHA_SITE_KEY=your_recaptcha_site_key
+RECAPTCHA_SECRET_KEY=your_recaptcha_secret_key
+
+# Email (Resend)
+RESEND_API_KEY=re_123456789
+CONTACT_EMAIL=your_email@example.com
+FROM_EMAIL=Your Name <onboarding@resend.dev>
 ```
 
 ## Setup Guide
@@ -88,6 +98,7 @@ npm run migrate -- --no-dry-run
 - **CMS**: Google Sheets API
 - **Assets**: Google Drive API
 - **Styling**: Tailwind CSS
+- **Email**: Resend
 
 For more details on the architecture and data flow, see
 [DESIGN.md](file:///c:/Users/ethan/Documents/GitHub/snfforms.com/DESIGN.md).

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { appendContactMessage, ContactFormData } from '@/lib/sheets';
+import { Resend } from 'resend';
 
 export async function POST(request: Request) {
   try {
@@ -45,6 +46,33 @@ export async function POST(request: Request) {
     };
 
     await appendContactMessage(contactData);
+
+    const resend = new Resend(process.env.RESEND_API_KEY);
+
+    console.log('Attempting to send email via Resend...');
+    const { data: emailData, error: emailError } = await resend.emails.send({
+      from: process.env.FROM_EMAIL || 'SNF Forms <onboarding@resend.dev>',
+      to: process.env.CONTACT_EMAIL || 'ethan@thatonekid.com',
+      subject: `${name} sent you a message`,
+      html: `
+        <h2>New Contact Form Submission</h2>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Phone:</strong> ${phone || 'N/A'}</p>
+        <p><strong>Message:</strong></p>
+        <p>${message.replace(/\n/g, '<br>')}</p>
+      `,
+      replyTo: email,
+    });
+
+    if (emailError) {
+      console.error('Resend API Error:', emailError);
+      // We don't fail the whole request because the sheet update succeeded,
+      // but we should probably log it very clearly.
+      // Optionally we could return a warning.
+    } else {
+      console.log('Email sent successfully:', emailData);
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {
