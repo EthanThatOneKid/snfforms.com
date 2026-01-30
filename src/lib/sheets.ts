@@ -78,7 +78,9 @@ export async function getForms(): Promise<NormalizedCatalogItem[]> {
     file0: row[8] || '',
     file1: row[9] || '',
     pdf0: row[10] || '',
-  }));
+  })).toSorted((a, b) => {
+    return a.description.localeCompare(b.description)
+  });
 }
 
 /**
