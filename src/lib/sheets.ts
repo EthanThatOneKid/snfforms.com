@@ -66,21 +66,23 @@ export async function getForms(): Promise<NormalizedCatalogItem[]> {
     return [];
   }
 
-  return rows.map((row) => ({
-    formId: row[0] || '',
-    category: row[1] || '',
-    description: row[2] || '',
-    size: row[3] || '',
-    paper: row[4] || '',
-    color: row[5] || '',
-    sides: row[6] || '',
-    unit: row[7] || '',
-    file0: row[8] || '',
-    file1: row[9] || '',
-    pdf0: row[10] || '',
-  })).toSorted((a, b) => {
-    return a.description.localeCompare(b.description)
-  });
+  return rows
+    .map((row) => ({
+      formId: row[0] || '',
+      category: row[1] || '',
+      description: row[2] || '',
+      size: row[3] || '',
+      paper: row[4] || '',
+      color: row[5] || '',
+      sides: row[6] || '',
+      unit: row[7] || '',
+      file0: row[8] || '',
+      file1: row[9] || '',
+      pdf0: row[10] || '',
+    }))
+    .toSorted((a, b) => {
+      return a.description.localeCompare(b.description);
+    });
 }
 
 /**

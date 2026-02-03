@@ -5,7 +5,7 @@ import { FileText } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
 import { useAssetPrefetch } from '@/hooks/use-asset-prefetch';
-import { cn } from '@/lib/utils';
+import { cn, getAssetImageSrc } from '@/lib/utils';
 
 interface FormImageGalleryProps {
   form: NormalizedCatalogItem;
@@ -32,7 +32,7 @@ export function FormImageGallery({
 
   // If there's no second file, always show the first
   const activeFile = activeImageIndex === 0 ? form.file0 : form.file1;
-  const imageUrl = `/api/assets/${activeFile}`;
+  const imageUrl = getAssetImageSrc(activeFile);
   const hasMultipleImages = !!form.file1;
 
   return (
@@ -98,7 +98,7 @@ export function FormImageGallery({
               }}
               onMouseEnter={() => {
                 const file = idx === 0 ? form.file0 : form.file1;
-                prefetchAsset(file);
+                prefetchAsset(getAssetImageSrc(file));
               }}
               className={cn(
                 'flex items-center justify-center rounded-full font-bold shadow-sm transition-all',

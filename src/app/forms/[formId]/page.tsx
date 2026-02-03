@@ -1,4 +1,5 @@
 import { getFormById } from '@/lib/sheets';
+import { getAssetUrl } from '@/lib/utils';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { FormPreview } from '@/components/form-preview';
@@ -11,7 +12,9 @@ interface PageProps {
   }>;
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { formId } = await params;
   const form = await getFormById(formId);
 
@@ -107,7 +110,7 @@ export default async function FormPage({ params }: PageProps) {
               {/* Future implementation: Order/Contact logic */}
               {form.pdf0 && (
                 <a
-                  href={`/api/assets/${form.pdf0}`}
+                  href={getAssetUrl(form.pdf0)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mb-3 flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-card px-8 py-3 text-xs font-bold uppercase tracking-widest text-foreground shadow-sm transition-all hover:bg-accent hover:text-accent-foreground hover:translate-y-[-1px] active:translate-y-[0] active:scale-[0.98]"
