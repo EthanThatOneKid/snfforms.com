@@ -146,7 +146,7 @@ components:
         sides:
           type: string
           description: Number of printed sides.
-          example: "1"
+          example: '1'
         unit:
           type: string
           description: Packaging unit.
