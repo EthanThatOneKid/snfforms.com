@@ -18,9 +18,9 @@ export function Search({
   const handleSearch = useDebouncedCallback((term: string) => {
     const params = new URLSearchParams(searchParams.toString());
     if (term) {
-      params.set('q', term);
+      params.set('query', term);
     } else {
-      params.delete('q');
+      params.delete('query');
     }
     replace(`${pathname}?${params.toString()}`, { scroll: false });
   }, 300);
@@ -36,7 +36,7 @@ export function Search({
         onChange={(e) => {
           handleSearch(e.target.value);
         }}
-        defaultValue={searchParams.get('q')?.toString()}
+        defaultValue={searchParams.get('query')?.toString()}
       />
       <SearchIcon className="absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-muted-foreground peer-focus:text-foreground transition-colors" />
     </div>

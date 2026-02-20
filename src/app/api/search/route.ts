@@ -4,8 +4,10 @@ import { getForms } from '@/lib/sheets';
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = request.nextUrl;
-    const category = searchParams.get('category');
     const query = searchParams.get('query')?.toLowerCase();
+    const category = searchParams.get('category');
+    const limit = parseInt(searchParams.get('limit') || '20', 10);
+    const offset = parseInt(searchParams.get('offset') || '0', 10);
 
     let forms = await getForms();
 
@@ -19,15 +21,24 @@ export async function GET(request: NextRequest) {
       forms = forms.filter(
         (form) =>
           form.formId.toLowerCase().includes(query) ||
-          form.description.toLowerCase().includes(query)
+          form.description.toLowerCase().includes(query) ||
+          form.category.toLowerCase().includes(query)
       );
     }
 
-    return NextResponse.json(forms);
+    const total = forms.length;
+    const results = forms.slice(offset, offset + limit);
+
+    return NextResponse.json({
+      results,
+      total,
+      limit,
+      offset,
+    });
   } catch (error) {
-    console.error('Error fetching forms:', error);
+    console.error('Error searching forms:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch forms' },
+      { error: 'Failed to search forms' },
       { status: 500 }
     );
   }

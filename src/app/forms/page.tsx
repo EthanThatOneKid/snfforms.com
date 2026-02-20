@@ -6,7 +6,7 @@ import { Search } from '@/components/search';
 import { Suspense } from 'react';
 
 interface CatalogPageProps {
-  searchParams: Promise<{ category?: string; q?: string }>;
+  searchParams: Promise<{ category?: string; query?: string }>;
 }
 
 export const metadata: Metadata = {
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default async function CatalogPage({ searchParams }: CatalogPageProps) {
-  const { category, q } = await searchParams;
+  const { category, query } = await searchParams;
   const allForms = await getForms();
 
   const categories = Array.from(
@@ -27,11 +27,11 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
       )
     : allForms;
 
-  if (q) {
+  if (query) {
     filteredForms = filteredForms.filter(
       (f) =>
-        f.formId.toLowerCase().includes(q.toLowerCase()) ||
-        f.description.toLowerCase().includes(q.toLowerCase())
+        f.formId.toLowerCase().includes(query.toLowerCase()) ||
+        f.description.toLowerCase().includes(query.toLowerCase())
     );
   }
 
@@ -68,9 +68,9 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
           <div className="flex items-center justify-between mb-8 border-b border-border pb-4">
             <h2 className="text-xl font-semibold text-foreground">
               {category || 'All Forms'}
-              {q && (
+              {query && (
                 <span className="ml-2 text-sm font-normal text-muted-foreground">
-                  (Search: &quot;{q}&quot;)
+                  (Search: &quot;{query}&quot;)
                 </span>
               )}
               <span className="ml-2 text-sm font-normal text-muted-foreground">
