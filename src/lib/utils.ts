@@ -32,3 +32,17 @@ export function getAssetImageSrc(value: string | undefined): string {
   if (driveMatch) return `/api/assets/${driveMatch[1]}`;
   return url;
 }
+
+/**
+ * Returns resolved asset URLs for a form's images and PDF.
+ */
+export function getFormAssetUrls(form: {
+  file0: string;
+  file1: string;
+  pdf0: string;
+}) {
+  return {
+    images: [getAssetUrl(form.file0), getAssetUrl(form.file1)].filter(Boolean),
+    pdf: getAssetUrl(form.pdf0) || undefined,
+  };
+}

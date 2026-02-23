@@ -1,5 +1,5 @@
 import { getFormById } from '@/lib/sheets';
-import { getAssetUrl } from '@/lib/utils';
+import { getAssetUrl, getFormAssetUrls } from '@/lib/utils';
 import { productJsonLd } from '@/lib/json-ld';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
@@ -39,23 +39,21 @@ export async function generateMetadata({
     ? `Precision medical form ${form.formId} (${form.description}). Used by ${facility}. Size: ${form.size}, Unit: ${form.unit}.`
     : `Order form ${form.formId}: ${form.description}. Size: ${form.size}, Unit: ${form.unit}.`;
 
+  const { images } = getFormAssetUrls(form);
+
   return {
     title,
     description,
     openGraph: {
       title,
       description,
-      images: [
-        `/forms/${formId}/opengraph-image${facility ? `?facility=${facility}` : ''}`,
-      ],
+      images,
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      images: [
-        `/forms/${formId}/opengraph-image${facility ? `?facility=${facility}` : ''}`,
-      ],
+      images,
     },
   };
 }

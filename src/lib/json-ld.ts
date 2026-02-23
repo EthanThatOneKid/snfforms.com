@@ -1,5 +1,5 @@
 import { companyInfo } from './company';
-import { getAssetUrl } from './utils';
+import { getFormAssetUrls } from './utils';
 import type { NormalizedCatalogItem } from './sheets';
 
 /**
@@ -78,15 +78,14 @@ export function breadcrumbListJsonLd(items: { label: string; href: string }[]) {
  * Generates a Product JSON-LD object from a NormalizedCatalogItem.
  */
 export function productJsonLd(form: NormalizedCatalogItem) {
+  const { images, pdf } = getFormAssetUrls(form);
+
   return {
     '@context': 'https://schema.org',
     '@type': 'Product',
     '@id': `${companyInfo.website}/forms/${form.formId}`,
     name: form.description,
-    image: [
-      getAssetUrl(form.file0),
-      ...(form.file1 ? [getAssetUrl(form.file1)] : []),
-    ].filter(Boolean),
+    image: images,
     description: form.description,
     sku: form.formId,
     brand: companyInfo.website,
@@ -118,11 +117,11 @@ export function productJsonLd(form: NormalizedCatalogItem) {
         value: form.unit,
       },
     ].filter(Boolean),
-    ...(form.pdf0 && {
+    ...(pdf && {
       subjectOf: {
         '@type': 'DigitalDocument',
         name: `${form.formId} PDF`,
-        url: getAssetUrl(form.pdf0),
+        url: pdf,
         encodingFormat: 'application/pdf',
       },
     }),
