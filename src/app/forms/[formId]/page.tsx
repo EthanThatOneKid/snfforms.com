@@ -3,19 +3,25 @@ import { getAssetUrl } from '@/lib/utils';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { FormPreview } from '@/components/form-preview';
-import { ChevronLeft, FileText } from 'lucide-react';
+import { FileText } from 'lucide-react';
 import Link from 'next/link';
+import { Breadcrumb } from '@/components/breadcrumb';
 
 interface PageProps {
   params: Promise<{
     formId: string;
   }>;
+  searchParams: Promise<{
+    facility?: string;
+  }>;
 }
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: PageProps): Promise<Metadata> {
   const { formId } = await params;
+  const { facility } = await searchParams;
   const form = await getFormById(formId);
 
   if (!form) {
@@ -24,32 +30,73 @@ export async function generateMetadata({
     };
   }
 
+  const title = facility
+    ? `${form.formId} - ${form.description} | Used by ${facility}`
+    : `${form.formId} - ${form.description}`;
+
+  const description = facility
+    ? `Precision medical form ${form.formId} (${form.description}). Used by ${facility}. Size: ${form.size}, Unit: ${form.unit}.`
+    : `Order form ${form.formId}: ${form.description}. Size: ${form.size}, Unit: ${form.unit}.`;
+
   return {
-    title: `${form.formId} - ${form.description}`,
-    description: `Order form ${form.formId}: ${form.description}. Size: ${form.size}, Unit: ${form.unit}.`,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: [
+        `/forms/${formId}/opengraph-image${facility ? `?facility=${facility}` : ''}`,
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [
+        `/forms/${formId}/opengraph-image${facility ? `?facility=${facility}` : ''}`,
+      ],
+    },
   };
 }
 
-export default async function FormPage({ params }: PageProps) {
+export default async function FormPage({ params, searchParams }: PageProps) {
   const { formId } = await params;
+  const { facility } = await searchParams;
   const form = await getFormById(formId);
 
   if (!form) {
     notFound();
   }
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: form.description,
+    image: getAssetUrl(form.file0),
+    description: `Order form ${form.formId}: ${form.description}. Size: ${form.size}, Paper: ${form.paper}, Color: ${form.color}.`,
+    sku: form.formId,
+    brand: {
+      '@type': 'Brand',
+      name: 'SNF Printing',
+    },
+    category: form.category,
+  };
+
+  const breadcrumbItems = [
+    { label: 'Forms', href: '/forms' },
+    { label: form.category, href: `/forms?category=${form.category}` },
+    { label: form.formId, href: `/forms/${form.formId}` },
+  ];
+
   return (
     <div className="bg-background pt-24 pb-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-8">
-          <Link
-            href="/forms"
-            className="inline-flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <ChevronLeft size={16} />
-            Back to Forms
-          </Link>
-        </div>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+
+        <Breadcrumb items={breadcrumbItems} />
 
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
           {/* Left Column: Image Preview */}
@@ -68,6 +115,11 @@ export default async function FormPage({ params }: PageProps) {
                   {form.formId}
                 </span>
               </div>
+              {facility && (
+                <p className="mb-2 text-xs font-bold uppercase tracking-widest text-primary/60">
+                  Used by {facility}
+                </p>
+              )}
               <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl mb-6">
                 {form.description}
               </h1>

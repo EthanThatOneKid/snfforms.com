@@ -4,17 +4,51 @@ import { FormCard } from '@/components/form-card';
 import { CategoryFilter } from '@/components/category-filter';
 import { Search } from '@/components/search';
 import { Suspense } from 'react';
+import { Breadcrumb } from '@/components/breadcrumb';
 
 interface CatalogPageProps {
-  searchParams: Promise<{ category?: string; query?: string }>;
+  searchParams: Promise<{
+    category?: string;
+    query?: string;
+    facility?: string;
+  }>;
 }
 
-export const metadata: Metadata = {
-  title: 'Forms Catalog',
-};
+export async function generateMetadata({
+  searchParams,
+}: CatalogPageProps): Promise<Metadata> {
+  const { category, query, facility } = await searchParams;
+
+  let title = 'Forms Catalog';
+  let description =
+    'Browse our extensive collection of precision-printed medical and administrative forms for healthcare providers.';
+
+  if (category) {
+    title = `${category} Forms Catalog`;
+    description = `View our collection of ${category} forms. Precision-printed for accuracy and efficiency.`;
+  }
+
+  if (query) {
+    title = `Search Results for "${query}" - Forms Catalog`;
+  }
+
+  if (facility) {
+    title = `${title} | Personalized for ${facility}`;
+    description = `Welcome ${facility}. Explore our medical forms catalog, curated for your facility.`;
+  }
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+    },
+  };
+}
 
 export default async function CatalogPage({ searchParams }: CatalogPageProps) {
-  const { category, query } = await searchParams;
+  const { category, query, facility } = await searchParams;
   const allForms = await getForms();
 
   const categories = Array.from(
@@ -35,9 +69,24 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
     );
   }
 
+  const breadcrumbItems = [{ label: 'Forms', href: '/forms' }];
+  if (category) {
+    breadcrumbItems.push({
+      label: category,
+      href: `/forms?category=${category}`,
+    });
+  }
+
   return (
     <div className="pt-24 pb-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <Breadcrumb items={breadcrumbItems} />
+
+        {facility && (
+          <p className="mb-2 text-xs font-bold uppercase tracking-widest text-primary/60">
+            Curated for {facility}
+          </p>
+        )}
         <h1 className="text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl">
           Forms Catalog
         </h1>
