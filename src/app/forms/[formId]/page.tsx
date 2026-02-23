@@ -1,5 +1,6 @@
 import { getFormById } from '@/lib/sheets';
 import { getAssetUrl } from '@/lib/utils';
+import { productJsonLd } from '@/lib/json-ld';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { FormPreview } from '@/components/form-preview';
@@ -68,19 +69,7 @@ export default async function FormPage({ params, searchParams }: PageProps) {
     notFound();
   }
 
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Product',
-    name: form.description,
-    image: getAssetUrl(form.file0),
-    description: `Order form ${form.formId}: ${form.description}. Size: ${form.size}, Paper: ${form.paper}, Color: ${form.color}.`,
-    sku: form.formId,
-    brand: {
-      '@type': 'Brand',
-      name: 'SNF Printing',
-    },
-    category: form.category,
-  };
+  const jsonLd = productJsonLd(form);
 
   const breadcrumbItems = [
     { label: 'Forms', href: '/forms' },

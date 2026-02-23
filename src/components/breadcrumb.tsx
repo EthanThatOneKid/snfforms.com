@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { ChevronRight, Home } from 'lucide-react';
-import { Fragment } from 'react';
+import { breadcrumbListJsonLd } from '@/lib/json-ld';
 
 interface BreadcrumbItem {
   label: string;
@@ -12,16 +12,7 @@ interface BreadcrumbProps {
 }
 
 export function Breadcrumb({ items }: BreadcrumbProps) {
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: items.map((item, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      name: item.label,
-      item: `https://snfforms.com${item.href}`,
-    })),
-  };
+  const jsonLd = breadcrumbListJsonLd(items);
 
   return (
     <>

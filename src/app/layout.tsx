@@ -4,7 +4,7 @@ import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
-import { companyInfo } from '@/lib/company';
+import { localBusinessJsonLd, webSiteJsonLd } from '@/lib/json-ld';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -55,55 +55,13 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'LocalBusiness',
-              name: companyInfo.name,
-              description: companyInfo.description,
-              url: companyInfo.website,
-              telephone: companyInfo.contact.phone,
-              email: companyInfo.contact.email,
-              faxNumber: companyInfo.contact.fax,
-              foundingDate: '1994',
-              address: {
-                '@type': 'PostalAddress',
-                streetAddress: companyInfo.location.address,
-                addressLocality: companyInfo.location.city,
-                addressRegion: companyInfo.location.state,
-                postalCode: companyInfo.location.zip,
-                addressCountry: 'US',
-              },
-              image: 'https://snfforms.com/hero.jpg',
-              logo: 'https://snfforms.com/brand-logo.png',
-              slogan: companyInfo.mission,
-              knowsAbout: [
-                'Medical Forms',
-                'Healthcare Printing',
-                'Skilled Nursing Facility Forms',
-                'CMS Forms',
-                'Medical Supplies',
-              ],
-            }),
+            __html: JSON.stringify(localBusinessJsonLd()),
           }}
         />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'WebSite',
-              name: companyInfo.name,
-              url: companyInfo.website,
-              description: companyInfo.description,
-              potentialAction: {
-                '@type': 'SearchAction',
-                target: {
-                  '@type': 'EntryPoint',
-                  urlTemplate: `${companyInfo.website}/forms?query={search_term_string}`,
-                },
-                'query-input': 'required name=search_term_string',
-              },
-            }),
+            __html: JSON.stringify(webSiteJsonLd()),
           }}
         />
         <ThemeProvider
