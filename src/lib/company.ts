@@ -16,7 +16,7 @@ export const companyInfo = {
     fullAddress: '15532 Computer Lane, Huntington Beach, CA',
   },
   contact: {
-    email: 'sales@snfforms.com',
+    email: 'sales@snfprinting.com',
     phone: '(714) 901-6868',
     fax: '(714) 901-6858',
   },

@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Sparkles } from 'lucide-react';
+import { companyInfo } from '@/lib/company';
 
 export function Footer() {
   return (
@@ -17,7 +18,7 @@ export function Footer() {
                 className="h-8 w-auto hover-rotate-logo"
               />
               <span className="text-lg font-bold tracking-tight text-zinc-900 dark:text-white">
-                SNF Printing
+                {companyInfo.name}
               </span>
             </Link>
             <p className="mt-4 max-w-xs text-sm text-zinc-600 dark:text-zinc-400">
@@ -94,29 +95,31 @@ export function Footer() {
             <ul className="mt-4 space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
               <li>
                 <a
-                  href="mailto:sales@snfforms.com"
+                  href={`mailto:${companyInfo.contact.email}`}
                   className="transition-colors hover:text-zinc-900 dark:hover:text-zinc-100"
                 >
-                  sales@snfforms.com
+                  {companyInfo.contact.email}
                 </a>
               </li>
               <li>
-                <p>15532 Computer Lane</p>
-                <p>Huntington Beach, CA</p>
+                <p>{companyInfo.location.address}</p>
+                <p>
+                  {companyInfo.location.city}, {companyInfo.location.state}
+                </p>
               </li>
               <li>
                 <p>
                   Phone:{' '}
                   <a
-                    href="tel:+17149016868"
+                    href={`tel:+1${companyInfo.contact.phone.replace(/[\s()-]/g, '')}`}
                     className="transition-colors hover:text-zinc-900 dark:hover:text-zinc-100"
                   >
-                    (714) 901-6868
+                    {companyInfo.contact.phone}
                   </a>
                 </p>
               </li>
               <li>
-                <p>Fax: (714) 901-6858</p>
+                <p>Fax: {companyInfo.contact.fax}</p>
               </li>
             </ul>
           </div>

@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ModeToggle } from './mode-toggle';
+import { companyInfo } from '@/lib/company';
 
 export function Navbar() {
   return (
@@ -10,13 +11,13 @@ export function Navbar() {
           <Link href="/" className="flex items-center gap-2">
             <Image
               src="/logo-transparent.svg"
-              alt="SNF Logo"
+              alt={`${companyInfo.name} Logo`}
               width={40}
               height={40}
               className="h-10 w-auto hover-rotate-logo"
             />
             <span className="hidden text-xl font-bold tracking-tight text-zinc-900 dark:text-white sm:block">
-              SNF Printing
+              {companyInfo.name}
             </span>
           </Link>
         </div>

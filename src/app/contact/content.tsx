@@ -19,6 +19,7 @@ import {
   Phone,
   Printer,
 } from 'lucide-react';
+import { companyInfo } from '@/lib/company';
 
 function ContactForm() {
   const { executeRecaptcha } = useGoogleReCaptcha();
@@ -215,10 +216,10 @@ export default function ContactContent() {
                 <h3 className="font-semibold">Email</h3>
                 <p className="text-muted-foreground">
                   <a
-                    href="mailto:sales@snfforms.com"
+                    href={`mailto:${companyInfo.contact.email}`}
                     className="hover:underline"
                   >
-                    sales@snfforms.com
+                    {companyInfo.contact.email}
                   </a>
                 </p>
               </div>
@@ -229,9 +230,9 @@ export default function ContactContent() {
               <div>
                 <h3 className="font-semibold">Corporate Headquarters</h3>
                 <p className="text-muted-foreground">
-                  15532 Computer Lane
+                  {companyInfo.location.address}
                   <br />
-                  Huntington Beach, CA
+                  {companyInfo.location.city}, {companyInfo.location.state}
                 </p>
               </div>
             </div>
@@ -241,8 +242,11 @@ export default function ContactContent() {
               <div>
                 <h3 className="font-semibold">Phone</h3>
                 <p className="text-muted-foreground">
-                  <a href="tel:+17149016868" className="hover:underline">
-                    (714) 901-6868
+                  <a
+                    href={`tel:+1${companyInfo.contact.phone.replace(/[\s()-]/g, '')}`}
+                    className="hover:underline"
+                  >
+                    {companyInfo.contact.phone}
                   </a>
                 </p>
               </div>
@@ -252,7 +256,9 @@ export default function ContactContent() {
               <Printer className="h-6 w-6 text-primary mt-1" />
               <div>
                 <h3 className="font-semibold">Fax</h3>
-                <p className="text-muted-foreground">(714) 901-6858</p>
+                <p className="text-muted-foreground">
+                  {companyInfo.contact.fax}
+                </p>
               </div>
             </div>
           </div>

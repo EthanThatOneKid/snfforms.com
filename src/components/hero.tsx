@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { companyInfo } from '@/lib/company';
 
 export function Hero() {
   return (
@@ -17,13 +18,13 @@ export function Hero() {
               Provider
             </h1>
             <p className="text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-              The most reliable printing business in Huntington Beach,
-              California. SNF Printing has been facilitating the health care
-              industry for over 30 years. We provide the easiest access to a
-              variety of medical forms and supplies. Our role is to efficiently
-              provide product on call so that our valued clients can do their
-              jobs without delay. We thank you for the opportunity to serve your
-              needs.
+              The most reliable printing business in {companyInfo.location.city}
+              , {companyInfo.location.state}. {companyInfo.name} has been
+              facilitating the health care industry for over 30 years. We
+              provide the easiest access to a variety of medical forms and
+              supplies. Our role is to efficiently provide product on call so
+              that our valued clients can do their jobs without delay. We thank
+              you for the opportunity to serve your needs.
             </p>
             <div className="flex flex-col gap-4 sm:flex-row">
               <Link

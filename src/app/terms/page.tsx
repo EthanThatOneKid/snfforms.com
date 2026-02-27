@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { companyInfo } from '@/lib/company';
 
 export const metadata: Metadata = {
   title: 'Terms of Service',
@@ -22,10 +23,10 @@ export default function TermsPage() {
           <p className="mt-4">
             These Terms of Service constitute a legally binding agreement made
             between you, whether personally or on behalf of an entity
-            (&quot;you&quot;) and SNF Printing (&quot;we,&quot; &quot;us,&quot;
-            or &quot;our&quot;), concerning your access to and use of our
-            website. By accessing the site, you have read, understood, and
-            agreed to be bound by all of these Terms of Service.
+            (&quot;you&quot;) and {companyInfo.name} (&quot;we,&quot;
+            &quot;us,&quot; or &quot;our&quot;), concerning your access to and
+            use of our website. By accessing the site, you have read,
+            understood, and agreed to be bound by all of these Terms of Service.
           </p>
         </section>
 
@@ -79,10 +80,10 @@ export default function TermsPage() {
           </h2>
           <p className="mt-4">
             These Terms shall be governed by and defined following the laws of
-            the State of California. SNF Printing and yourself irrevocably
-            consent that the courts of California shall have exclusive
-            jurisdiction to resolve any dispute which may arise in connection
-            with these terms.
+            the State of {companyInfo.location.state}. {companyInfo.name} and
+            yourself irrevocably consent that the courts of{' '}
+            {companyInfo.location.state} shall have exclusive jurisdiction to
+            resolve any dispute which may arise in connection with these terms.
           </p>
         </section>
 

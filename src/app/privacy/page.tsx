@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { companyInfo } from '@/lib/company';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
@@ -20,12 +21,12 @@ export default function PrivacyPage() {
             1. Introduction
           </h2>
           <p className="mt-4">
-            SNF Printing (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;)
-            respects your privacy and is committed to protecting your personal
-            data. This privacy policy will inform you as to how we look after
-            your personal data when you visit our website (regardless of where
-            you visit it from) and tell you about your privacy rights and how
-            the law protects you.
+            {companyInfo.name} (&quot;we,&quot; &quot;our,&quot; or
+            &quot;us&quot;) respects your privacy and is committed to protecting
+            your personal data. This privacy policy will inform you as to how we
+            look after your personal data when you visit our website (regardless
+            of where you visit it from) and tell you about your privacy rights
+            and how the law protects you.
           </p>
         </section>
 

@@ -4,6 +4,7 @@ import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
+import { companyInfo } from '@/lib/company';
 import { localBusinessJsonLd, webSiteJsonLd } from '@/lib/json-ld';
 
 const geistSans = Geist({
@@ -17,10 +18,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://snfforms.com'),
-  title: 'SNF Printing',
-  description:
-    'SNF Printing provides precision printing and easy access to medical forms and supplies for the healthcare industry for over 30 years.',
+  metadataBase: new URL(companyInfo.website),
+  title: companyInfo.name,
+  description: companyInfo.description,
   icons: {
     icon: '/brand-logo.png',
   },
