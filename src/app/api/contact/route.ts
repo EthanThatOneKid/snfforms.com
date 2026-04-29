@@ -52,7 +52,7 @@ export async function POST(request: Request) {
     console.log('Attempting to send email via Resend...');
     const { data: emailData, error: emailError } = await resend.emails.send({
       from: process.env.FROM_EMAIL || 'SNF Forms <onboarding@resend.dev>',
-      to: process.env.CONTACT_EMAIL || 'ethan@thatonekid.com',
+      to: process.env.CONTACT_EMAIL || 'info@snfforms.com',
       subject: `${name} sent you a message`,
       html: `
         <h2>New Contact Form Submission</h2>
