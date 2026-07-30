@@ -5,6 +5,10 @@
 A real-time, user-friendly catalog of forms using Google Sheets as a lightweight
 CMS and Google Drive for asset storage.
 
+## Vercel Toolbar
+
+The Vercel Toolbar is managed in Vercel project settings rather than in application code. Keep it enabled for Preview and set Production to **Off** under **Settings → General → Vercel Toolbar** so development feedback remains available without exposing the toolbar on the live site.
+
 ## Quick Start
 
 ```bash
