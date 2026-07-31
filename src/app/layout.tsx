@@ -4,6 +4,7 @@ import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
+import { ConciergeFab } from '@/components/concierge-fab';
 import { companyInfo } from '@/lib/company';
 import { localBusinessJsonLd, webSiteJsonLd } from '@/lib/json-ld';
 
@@ -74,6 +75,7 @@ export default function RootLayout({
             <Navbar />
             <main className="flex-grow">{children}</main>
             <Footer />
+            <ConciergeFab />
           </div>
         </ThemeProvider>
       </body>
