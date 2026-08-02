@@ -1,0 +1,397 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "SNF Forms Catalog API",
+    "description": "Public API for accessing the SNF Forms catalog, searching form details, and submitting contact requests.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "SNF Forms Support",
+      "email": "info@snfforms.com",
+      "url": "https://snfforms.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://snfforms.com",
+      "description": "Production Server"
+    },
+    {
+      "url": "http://localhost:3000",
+      "description": "Local Development Server"
+    }
+  ],
+  "paths": {
+    "/api/forms": {
+      "get": {
+        "operationId": "listForms",
+        "summary": "List all forms",
+        "description": "Retrieve a list of all forms in the catalog, optionally filtered by category or search query.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "category",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter forms by exact category match (case-insensitive)."
+          },
+          {
+            "in": "query",
+            "name": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Search forms by ID or description (case-insensitive)."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of forms matching the specified filters.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Form"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/forms/{formId}": {
+      "get": {
+        "operationId": "getFormById",
+        "summary": "Get a form by ID",
+        "description": "Retrieve a single form by its unique ID (e.g., SNF-24).",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "formId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The unique identifier of the form."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested form details.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Form"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Form not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/search": {
+      "get": {
+        "operationId": "searchForms",
+        "summary": "Search forms catalog",
+        "description": "Search the forms catalog with query, category filter, and pagination support.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Search term for ID, description, or category."
+          },
+          {
+            "in": "query",
+            "name": "category",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by exact category match."
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            },
+            "description": "Maximum number of results to return."
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            },
+            "description": "Number of results to skip."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated search results.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/contact": {
+      "post": {
+        "operationId": "submitContactForm",
+        "summary": "Submit contact message",
+        "description": "Submit a message via the contact form. Requires a reCAPTCHA v3 verification token.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContactSubmission"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Contact submission received successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request / Invalid Token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden / Low reCAPTCHA score",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Form": {
+        "type": "object",
+        "required": [
+          "formId",
+          "category",
+          "description"
+        ],
+        "properties": {
+          "formId": {
+            "type": "string",
+            "description": "Unique identifier for the form",
+            "example": "SNF-24"
+          },
+          "category": {
+            "type": "string",
+            "description": "Product category",
+            "example": "Nursing"
+          },
+          "description": {
+            "type": "string",
+            "description": "Detailed description or title of the form",
+            "example": "24 Hour Nursing Report"
+          },
+          "size": {
+            "type": "string",
+            "description": "Physical dimensions of the form",
+            "example": "8-1/2 x 14"
+          },
+          "paper": {
+            "type": "string",
+            "description": "Paper type or weight",
+            "example": "2 part NCR"
+          },
+          "color": {
+            "type": "string",
+            "description": "Ink colors used",
+            "example": "White/Yellow"
+          },
+          "sides": {
+            "type": "string",
+            "description": "Number of printed sides",
+            "example": "1"
+          },
+          "unit": {
+            "type": "string",
+            "description": "Packaging unit",
+            "example": "S/100"
+          },
+          "file0": {
+            "type": "string",
+            "description": "URL or path to the primary image asset"
+          },
+          "file1": {
+            "type": "string",
+            "description": "URL or path to the secondary image asset"
+          },
+          "pdf0": {
+            "type": "string",
+            "description": "URL or path to the PDF document"
+          }
+        }
+      },
+      "SearchResponse": {
+        "type": "object",
+        "required": [
+          "results",
+          "total",
+          "limit",
+          "offset"
+        ],
+        "properties": {
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Form"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "description": "Total number of matching forms",
+            "example": 42
+          },
+          "limit": {
+            "type": "integer",
+            "description": "The limit used for this request",
+            "example": 20
+          },
+          "offset": {
+            "type": "integer",
+            "description": "The offset used for this request",
+            "example": 0
+          }
+        }
+      },
+      "ContactSubmission": {
+        "type": "object",
+        "required": [
+          "name",
+          "email",
+          "message",
+          "captchaToken"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Jane Doe"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "jane@example.com"
+          },
+          "phone": {
+            "type": "string",
+            "example": "555-123-4567"
+          },
+          "message": {
+            "type": "string",
+            "example": "I would like to order SNF-24 forms."
+          },
+          "captchaToken": {
+            "type": "string",
+            "description": "reCAPTCHA v3 response token"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Form not found"
+          }
+        }
+      }
+    }
+  }
+}
